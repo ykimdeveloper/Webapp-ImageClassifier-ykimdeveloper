@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+
+    <style>
+        .thumb {
+          height: 75px;
+          border: 1px solid #000;
+          margin: 10px 5px 0 0;
+        }
+      </style>
+ 
+
+    <!-- Load the latest version of TensorFlow.js -->
+    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+    <script src="https://unpkg.com/@tensorflow-models/mobilenet"></script>
+
+    <script src="https://unpkg.com/@tensorflow-models/knn-classifier"></script>
+    
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Starter Template - Materialize</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Cyberdyne Systems</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="https://images.app.goo.gl/2oNFEfLUFHwbw4ix6" >SKYNet</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="sidenav">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+  
+
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      
+      <h1 class="header center orange-text">Image Classifier</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">Image Classifier for movies and photos</h5>
+      </div>
+      <div class="row center">
+
+<!-- ---------------------------------------------------------------- -->
+<video autoplay playsinline muted id="webcam" width="224" height="224"></video>
+      
+<div id="console"></div>
+<button id="class-a"  class="btn-large waves-effect waves-light orange">Train Group A</button>
+<button id="class-b"  class="btn-large waves-effect waves-light orange">Train Group B</button>
+<button id="class-c"  class="btn-large waves-effect waves-light orange">Train Group C</button>
+
+<!-- Add an image that we will use to test -->
+<!-- <img id="img" crossOrigin src="https://i.imgur.com/JlUvsxa.jpg" width=227 height=227/> -->
+<!-- Load index.js after the content of the page -->
+
+<!-- ------------------------------------------------------------------------- -->
+
+        <!-- <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a> -->
+      </div>
+      <br><br>
+
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons">label A</i></h2>
+            <h5 class="center">snapshot A</h5>
+
+            <!-- <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p> -->
+                 
+            <!-- <input type="file" id="files" name="files[]" multiple /> -->
+            <!-- <output id="list"></output> -->
+
+
+          <!-- Webcam video snapshot -->
+          <canvas id="canvas-a" width="100" height="75"></canvas>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons">label B</i></h2>
+            <h5 class="center">snapshot B</h5>
+
+            <!-- <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p> -->
+            <!-- Webcam video snapshot -->
+            <canvas id="canvas-b" width="100" height="75"></canvas>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons">label C</i></h2>
+            <h5 class="center">snapshot C</h5>
+
+            <!-- <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p> -->
+
+            <canvas id="canvas-c" width="100" height="75"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <br><br>
+  </div>
+
+  <footer class="page-footer orange">
+  
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="index.js"></script>
+
+  <!-- <script>
+    function handleFileSelect(evt) {
+      var files = evt.target.files; // FileList object
+  
+      // Loop through the FileList and render image files as thumbnails.
+      for (var i = 0, f; f = files[i]; i++) {
+  
+        // Only process image files.
+        if (!f.type.match('image.*')) {
+          continue;
+        }
+  
+        var reader = new FileReader();
+  
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+          return function(e) {
+            // Render thumbnail.
+            var span = document.createElement('span');
+            span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                              '" title="', escape(theFile.name), '"/>'].join('');
+            document.getElementById('list').insertBefore(span, null);
+          };
+        })(f);
+  
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+      }
+    }
+  
+    document.getElementById('canvas-b').addEventListener('change', handleFileSelect, false);
+  </script> -->
+  </body>
+</html>
